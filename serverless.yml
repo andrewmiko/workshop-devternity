@@ -100,7 +100,8 @@ resources:
     restaurantsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: restaurants-${self:provider.stage}-devternity
+        # TableName: restaurants-${self:provider.stage}-devternity
+        TableName: ${ssm:/${self:service}/${self:provider.stage}/table_name}
         AttributeDefinitions:
           - AttributeName: name
             AttributeType: S
@@ -114,14 +115,14 @@ resources:
     orderEventsStream:
       Type: AWS::Kinesis::Stream
       Properties: 
-        Name: orders-${self:provider.stage}-devternity
+        Name: ${ssm:/${self:service}/${self:provider.stage}/stream_name}
         ShardCount: 1
 
     restaurantNotificationTopic:
       Type: AWS::SNS::Topic
       Properties: 
-        DisplayName: restaurants-${self:provider.stage}-devternity
-        TopicName: restaurants-${self:provider.stage}-devternity
+        DisplayName: ${ssm:/${self:service}/${self:provider.stage}/topic_name}
+        TopicName: ${ssm:/${self:service}/${self:provider.stage}/topic_name}
 
     mySubscription:
       Type: AWS::SNS::Subscription
