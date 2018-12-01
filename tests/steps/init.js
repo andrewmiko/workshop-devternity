@@ -36,6 +36,7 @@ const init = async () => {
 
   process.env.TEST_ROOT                     = params.url
   process.env.AWS_REGION                    = REGION
+  process.env.AWS_XRAY_CONTEXT_MISSING      = 'LOG_ERROR'
   process.env.orders_api                    = `${params.url}/orders`
   process.env.restaurants_api               = `${params.url}/restaurants`
   process.env.restaurants_table             = params.table_name
