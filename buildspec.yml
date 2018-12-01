@@ -1,9 +1,15 @@
 version: 0.2
 
 phases:
-  build:
+  install:
     commands:
       - npm install
-      - npm run test
+  pre_build:
+    commands:
+      - npm test
+  build:
+    commands:
       - npm run sls -- deploy -s $STAGE -r $REGION
+  post_build:
+    commands:
       - npm run acceptance
