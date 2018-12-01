@@ -10,6 +10,10 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
+  tracing: true
+  tags:
+    TEAM: test
+
   custom:
     stage: ${opt:stage, self:provider.stage}
     logLevel:
@@ -18,10 +22,7 @@ provider:
     serverless-iam-roles-per-function:
       defaultInherit: true
   environment:
-    log_level: ${self:custom.logLevel.${self:custom.stage}, self:custom.logLevel.default}
-  tracing: true
-  tags:
-    TEAM: test
+    log_level: ${self:provider.custom.logLevel.${self:provider.custom.stage}, self:provider.custom.logLevel.default}
 
   iamRoleStatements:
     - Effect: Allow
