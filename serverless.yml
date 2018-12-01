@@ -12,6 +12,7 @@ provider:
   region: us-east-1
   environment:
     log_level: ${self:custom.logLevel.${self:custom.stage}, self:custom.logLevel.default}
+    STAGE: ${self:custom.stage}
   tracing: true
   iamRoleStatements:
     - Effect: "Allow"
