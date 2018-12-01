@@ -1,6 +1,7 @@
 service: workshop-devternity
 
 plugins:
+  - serverless-plugin-tracing
   - serverless-pseudo-parameters
   - serverless-iam-roles-per-function
 
@@ -9,8 +10,20 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
+  environment:
+    log_level: ${self:custom.logLevel.${self:custom.stage}, self:custom.logLevel.default}
+  tracing: true
   tags:
     TEAM: test
+
+  custom:
+    stage: ${opt:stage, self:provider.stage}
+    logLevel:
+      prod: INFO
+      default: DEBUG
+
+    serverless-iam-roles-per-function:
+      defaultInherit: true
 
   iamRoleStatements:
     - Effect: Allow
@@ -29,6 +42,12 @@ provider:
       Action: sns:Publish
       Resource: 
         Ref: restaurantNotificationTopic
+    - Effect: "Allow"
+      Action:
+        - "xray:PutTraceSegments"
+        - "xray:PutTelemetryRecords"
+      Resource:
+        - "*"
 
 functions:
   get-index:
