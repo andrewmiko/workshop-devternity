@@ -10,43 +10,24 @@ provider:
   runtime: nodejs8.10
   stage: dev
   region: us-east-1
-  tracing: true
-  tags:
-    TEAM: test
-
-  custom:
-    stage: ${opt:stage, self:provider.stage}
-    logLevel:
-      prod: INFO
-      default: DEBUG
-    serverless-iam-roles-per-function:
-      defaultInherit: true
   environment:
-    log_level: ${self:provider.custom.logLevel.${self:provider.custom.stage}, self:provider.custom.logLevel.default}
-
+    log_level: ${self:custom.logLevel.${self:custom.stage}, self:custom.logLevel.default}
+  tracing: true
   iamRoleStatements:
-    - Effect: Allow
-      Action: dynamodb:scan
-      Resource:
-        Fn::GetAtt:
-          - restaurantsTable
-          - Arn
-    - Effect: Allow
-      Action: kinesis:PutRecord
-      Resource: 
-        Fn::GetAtt:
-          - orderEventsStream
-          - Arn
-    - Effect: Allow
-      Action: sns:Publish
-      Resource: 
-        Ref: restaurantNotificationTopic
     - Effect: "Allow"
       Action:
         - "xray:PutTraceSegments"
         - "xray:PutTelemetryRecords"
       Resource:
         - "*"
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  logLevel:
+    prod: INFO
+    default: DEBUG
+  serverless-iam-roles-per-function:
+    defaultInherit: true
 
 functions:
   get-index:
