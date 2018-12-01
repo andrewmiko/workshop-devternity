@@ -1,21 +1,21 @@
-const { expect } = require('chai')
-const { init } = require('../steps/init')
-const cheerio = require('cheerio')
-const when = require('../steps/when')
+// const { expect } = require('chai')
+// const { init } = require('../steps/init')
+// const cheerio = require('cheerio')
+// const when = require('../steps/when')
 
-describe(`When we invoke the GET / endpoint`, () => {
-  before(async () => await init())
+// describe(`When we invoke the GET / endpoint`, () => {
+//   before(async () => await init())
   
-  it(`Should return the index page with 8 restaurants`, async () => {
-    const res = await when.we_invoke_get_index()
+//   it(`Should return the index page with 8 restaurants`, async () => {
+//     const res = await when.we_invoke_get_index()
 
-    expect(res.statusCode).to.equal(200)
-    expect(res.headers['content-type']).to.equal('text/html; charset=UTF-8')
-    expect(res.body).to.not.be.null
+//     expect(res.statusCode).to.equal(200)
+//     expect(res.headers['content-type']).to.equal('text/html; charset=UTF-8')
+//     expect(res.body).to.not.be.null
 
-    const $ = cheerio.load(res.body)
-    const restaurants = $('.restaurant', '#restaurantsUl')
+//     const $ = cheerio.load(res.body)
+//     const restaurants = $('.restaurant', '#restaurantsUl')
 
-    expect(restaurants.length).to.equal(1)
-  })
-})
+//     expect(restaurants.length).to.equal(1)
+//   })
+// })
