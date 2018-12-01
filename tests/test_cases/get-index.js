@@ -16,7 +16,6 @@ describe(`When we invoke the GET / endpoint`, () => {
     const $ = cheerio.load(res.body)
     const restaurants = $('.restaurant', '#restaurantsUl')
 
-    // console.log(restaurants)
-    expect(restaurants.length).to.equal(8)
+    expect(restaurants.length).to.equal(1)
   })
 })
